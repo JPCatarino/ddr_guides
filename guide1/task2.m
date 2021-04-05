@@ -41,7 +41,7 @@ xlabel('Bit Error Rate')
 legend('100 Bytes', '200 Bytes', '1000 Bytes', 'location', 'southwest')
 
 %2e
-n = linspace(64*8, 1518*100)
+n = linspace(64, 1518)
 i = 0;
 
 p = [(10^-4), (10^-3), (10^-2)];

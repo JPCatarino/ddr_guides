@@ -45,6 +45,11 @@ disp("Average ber of the link in interference state = " + average_interference);
 
 %4c
 disp(' ');
-disp("Ex4.c.")
+disp("Ex4.c.");
+% Packet size from 64 bytes to 200 bytes
+n = linspace(64, 200);
+p = [(10^-6), (10^-5), (10^-4)];
+
+
 
 
