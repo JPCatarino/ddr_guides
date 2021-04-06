@@ -48,7 +48,20 @@ disp(' ');
 disp("Ex4.c.");
 % Packet size from 64 bytes to 200 bytes
 n = linspace(64, 200);
-p = [(10^-6), (10^-5), (10^-4)];
+%No Errors
+i = 0;
+p_normal = [(10^-6), (10^-5), (10^-4)];
+
+f1 = (1 - (p_normal(1)^i * (1 - p_normal(1)).^(n))) * 100;
+f2 = (1 - (p_normal(2)^i * (1 - p_normal(2)).^(n))) * 100;
+f3 = (1 - (p_normal(3)^i * (1 - p_normal(3)).^(n))) * 100;
+
+figure(1);
+semilogy(n, f1, 'b-', n, f2, 'b--', n, f3, 'b:');
+grid on
+title("Probabilidade de receber o pacote com erros(%)")
+xlabel('Packet Size (Bytes)')
+legend('ber=1e-6', 'ber=1e-5', 'ber=1e-4', 'location', 'southwest')
 
 
 
