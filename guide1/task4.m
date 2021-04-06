@@ -48,7 +48,8 @@ disp(' ');
 disp("Ex4.c.");
 % Packet size from 64 bytes to 200 bytes
 n = linspace(64, 200);
-%No Errors
+
+%With Errors
 i = 0;
 p_normal = [(10^-6), (10^-5), (10^-4)];
 
