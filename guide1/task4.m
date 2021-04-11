@@ -64,7 +64,7 @@ prob_errors = (prob_errors_in_normal .* prob_normal) + ...
 prob_normal_with_errors = (prob_errors_in_normal .* prob_normal)./prob_errors; 
 
 figure(1);
-semilogy(n, prob_normal_with_errors, 'b-');
+plot(n, prob_normal_with_errors, 'b-');
 grid on;
 title("Probabilidade de link estar em estado normal se o pacote for recebido com erros(%)");
 xlabel('Packet Size (Bytes)');
@@ -88,7 +88,7 @@ prob_no_errors = 1 - prob_errors;
 prob_interf_no_errors = (prob_no_errors_in_interference .* prob_interf)./prob_no_errors;
 
 figure(2);
-semilogy(n, prob_interf_no_errors, 'b-');
+plot(n, prob_interf_no_errors, 'b-');
 grid on;
 title("Probabilidade de link estar em estado interferencia se o pacote for recebido sem erros(%)");
 xlabel('Packet Size (Bytes)');
