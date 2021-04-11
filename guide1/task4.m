@@ -54,11 +54,9 @@ n = linspace(64, 200) * 8;
 
 %With Errors
 i = 0;
-ber_normal = [(10^-6), (10^-5), (10^-4)];
-ber_interf = [(10^-3), (10^-2)];
 
-prob_errors_in_normal = (1 - (average_normal^i * (1 - average_normal).^(n)));
-prob_errors_in_interf = (1 - (average_interf^i * (1 - average_interf).^(n)));
+prob_errors_in_normal = (1 - ((1 - average_normal).^(n)));
+prob_errors_in_interf = (1 - ((1 - average_interf).^(n)));
 
 % P(Errors) = P(Errors|N)P(N) + P(Errors|I)P(I)
 prob_errors = (prob_errors_in_normal .* prob_normal) + ... 
@@ -83,7 +81,7 @@ n = linspace(64, 200) * 8;
 
 % Without Errors
 i = 0;
-prob_no_errors_in_interference = (1 * average_interf^i * (1 - average_interf).^(n - i));
+prob_no_errors_in_interference = ((1 - average_interf).^(n - i));
 
 % P(NO_E) = 1 - P(E) ?
 prob_no_errors = 1 - prob_errors;
@@ -98,9 +96,4 @@ title("Probabilidade de link estar em estado interferencia se o pacote for receb
 xlabel('Packet Size (Bytes)');
 legend('%', 'location', 'southwest');
 
-
-
-
-
-
-
+save("task4variables.mat");
