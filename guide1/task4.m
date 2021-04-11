@@ -53,8 +53,6 @@ disp("Check figure 1.");
 n = linspace(64, 200) * 8;
 
 %With Errors
-i = 0;
-
 prob_errors_in_normal = (1 - ((1 - average_normal).^(n)));
 prob_errors_in_interf = (1 - ((1 - average_interf).^(n)));
 
