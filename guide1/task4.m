@@ -55,30 +55,23 @@ n = linspace(64, 200) * 8;
 ber_state = [(10^-6) (10^-5) (10^-4) (10^-3) (10^-2)];
 
 %With Errors
-prob_errors_in_state_1 = ((1 - ((1 - ber_state(1)).^(n)))*X(1));
-prob_errors_in_state_2 = ((1 - ((1 - ber_state(2)).^(n)))*X(2));
-prob_errors_in_state_3 = ((1 - ((1 - ber_state(3)).^(n)))*X(3));
-prob_errors_in_state_4 = ((1 - ((1 - ber_state(4)).^(n)))*X(4));
-prob_errors_in_state_5 = ((1 - ((1 - ber_state(5)).^(n)))*X(5));
-
-prob_errors_in_normal = (prob_errors_in_state_1 + prob_errors_in_state_2 + prob_errors_in_state_3);
-prob_errors_in_interf = (prob_errors_in_state_4 + prob_errors_in_state_5);
-
-% P(Errors) = P(Errors|N)P(N) + P(Errors|I)P(I)
-prob_errors = (prob_errors_in_normal .* prob_normal) + ... 
-              (prob_errors_in_interf .* prob_interf);
+prob_errors_in_state_1 = (1 - ((1 - ber_state(1)).^(n)));
+prob_errors_in_state_2 = (1 - ((1 - ber_state(2)).^(n)));
+prob_errors_in_state_3 = (1 - ((1 - ber_state(3)).^(n)));
+prob_errors_in_state_4 = (1 - ((1 - ber_state(4)).^(n)));
+prob_errors_in_state_5 = (1 - ((1 - ber_state(5)).^(n)));
 
 % P(CondN|Errors) = P(Errors|N)P(N)/P(Errors)
 %prob_normal_with_errors = (prob_errors_in_normal .* prob_normal)./prob_errors; 
-prob_state_sum = prob_errors_in_state_1 +...
-    prob_errors_in_state_2 +...
-    prob_errors_in_state_3 +...
-    prob_errors_in_state_4 +...
-    prob_errors_in_state_5; 
+prob_state_sum = (prob_errors_in_state_1*X(1)) +...
+    (prob_errors_in_state_2*X(2)) +...
+    (prob_errors_in_state_3*X(3)) +...
+    (prob_errors_in_state_4*X(4)) +...
+    (prob_errors_in_state_5*X(5)); 
 
-prob_normal_with_errors = (prob_errors_in_state_1 ./ prob_state_sum) + ...
-    (prob_errors_in_state_2 ./ prob_state_sum) + ...
-    (prob_errors_in_state_3 ./ prob_state_sum);
+prob_normal_with_errors = ((prob_errors_in_state_1*X(1)) ./ prob_state_sum) + ...
+    ((prob_errors_in_state_2*X(2)) ./ prob_state_sum) + ...
+    ((prob_errors_in_state_3*X(3)) ./ prob_state_sum);
 
 figure(1);
 plot(n, prob_normal_with_errors, 'b-');
@@ -96,16 +89,22 @@ n = linspace(64, 200) * 8;
 
 % Without Errors
 i = 0;
-prob_no_errors_in_interference = 0;
-for z = 4:5
-    prob_no_errors_in_interference = prob_no_errors_in_interference + ((1 - ber_state(z)).^(n - i));
-end
 
-% P(NO_E) = 1 - P(E) ?
-prob_no_errors = 1 - prob_errors;
+prob_no_errors_in_state_1 = ((1 - ber_state(1)).^(n - i));
+prob_no_errors_in_state_2 = ((1 - ber_state(2)).^(n - i));
+prob_no_errors_in_state_3 = ((1 - ber_state(3)).^(n - i));
+prob_no_errors_in_state_4 = ((1 - ber_state(4)).^(n - i));
+prob_no_errors_in_state_5 = ((1 - ber_state(5)).^(n - i));
+
+prob_state_sum = (prob_no_errors_in_state_1*X(1)) +...
+    (prob_no_errors_in_state_2*X(2)) +...
+    (prob_no_errors_in_state_3*X(3)) +...
+    (prob_no_errors_in_state_4*X(4)) +...
+    (prob_no_errors_in_state_5*X(5)); 
 
 % P(CondI|No_Errors) = P(No_Errors|I)P(I)/P(No_Errors)
-prob_interf_no_errors = (prob_no_errors_in_interference .* prob_interf)./prob_no_errors;
+prob_interf_no_errors = ((prob_no_errors_in_state_4*X(4)) ./ prob_state_sum) + ...
+    ((prob_no_errors_in_state_5*X(5)) ./ prob_state_sum);
 
 figure(2);
 plot(n, prob_interf_no_errors, 'b-');
