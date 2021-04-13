@@ -15,8 +15,8 @@ for n_frame = 2:5
     % Using variables from last exercise, p_errors_in_normal(1) corresponds
     % to the probability of the packet having errors in normal state for a
     % packet size of 64
-    prob_errors_in_normal_n = prob_errors_in_normal(1) ^ n_frame;
-    prob_errors_in_interf_n = prob_errors_in_interf(1) ^ n_frame;
+    prob_errors_in_normal_n = prob_normal_with_errors(1) ^ n_frame;
+    prob_errors_in_interf_n = (1 - prob_interf_no_errors(1)) ^ n_frame;
     
     prob_no_errors_in_interf_n = 1 - prob_errors_in_interf_n; 
     
