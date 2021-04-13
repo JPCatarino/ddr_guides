@@ -77,7 +77,7 @@ plot(n, prob_normal_with_errors, 'b-');
 grid on;
 title("Probabilidade do link estar em normal se o pacote for recebido com erros(%)");
 xlabel('Packet Size (Bytes)');
-print -depsc alineac
+print -depsc alinea4c
 
 %4d
 disp(' ');
@@ -87,8 +87,6 @@ disp("Check figure 2.");
 n = linspace(64, 200) * 8;
 
 % Without Errors
-i = 0;
-
 prob_no_errors_in_state_1 = ((1 - ber_state(1)).^(n));
 prob_no_errors_in_state_2 = ((1 - ber_state(2)).^(n));
 prob_no_errors_in_state_3 = ((1 - ber_state(3)).^(n));
@@ -109,6 +107,6 @@ plot(n, prob_interf_no_errors, 'b-');
 grid on;
 title("Probabilidade do link estar em interferencia se o pacote for recebido sem erros(%)");
 xlabel('Packet Size (Bytes)');
-print -depsc alinead
+print -depsc alinea4d
 
 save("task4variables.mat");

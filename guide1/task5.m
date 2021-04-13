@@ -11,12 +11,20 @@ load("task4variables.mat");
 
 prob_false_positive_n = zeros(1, 4);
 prob_false_negative_n = zeros(1, 4);
+
+% P(Errors|Normal) = P(Normal|Errors)P(Errors)/P(Normal);
+% P(Errors|Interf) = P(Interf|Errors)P(Errors)/P(Normal);
+prob_errors_in_normal = (prob_normal_with_errors.*prob_errors_state_sum)./prob_normal;
+prob_interf_with_errors = ((prob_errors_in_state_4*X(4)) + ...
+    (prob_errors_in_state_5*X(5))) ./ prob_errors_state_sum;
+prob_errors_in_interf = (prob_interf_with_errors.*prob_errors_state_sum)./prob_interf;
+
 for n_frame = 2:5
     % Using variables from last exercise, p_errors_in_normal(1) corresponds
     % to the probability of the packet having errors in normal state for a
     % packet size of 64
-    prob_errors_in_normal_n = prob_normal_with_errors(1) ^ n_frame;
-    prob_errors_in_interf_n = (1 - prob_interf_no_errors(1)) ^ n_frame;
+    prob_errors_in_normal_n = prob_errors_in_normal(1) ^ n_frame;
+    prob_errors_in_interf_n = prob_errors_in_interf(1) ^ n_frame;
     
     prob_no_errors_in_interf_n = 1 - prob_errors_in_interf_n; 
     
@@ -50,6 +58,7 @@ title("Probability of False Positives (%)");
 xlabel('n');
 ylabel('p(%)');
 xlim([1.5, 5.5]);
+print -depsc alinea5a
 
 disp("Ex5.b.");
 disp("Check figure 2.");
@@ -60,5 +69,6 @@ title("Probability of False Negatives (%)");
 xlabel('n');
 ylabel('p(%)');
 xlim([1.5, 5.5]);
+print -depsc alinea5b
 
 
