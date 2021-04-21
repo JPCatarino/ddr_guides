@@ -157,7 +157,36 @@ er.LineStyle = 'none';
 
 hold off
 
+%1e
+lambda_values = [10, 15, 20, 25, 30, 35, 40];
+C = 100;
+M = 4;
+R = 5000;
 
+sz = length(lambda_values);
+b_teoricos = zeros(1, sz);
+o_teoricos = zeros(1, sz);
+inverse_mu = 1.438;
 
+for z = 1:sz
+   ro = lambda_values(z)*inverse_mu;
+   
+   b_teoricos(z) = theoricalBlockingProbability(ro, lambda_values(z));
+   o_teoricos(z) = theoricalAverageSystemOccupation(ro, lambda_values(z));
+end
 
+% Average server occupation
+figure(4);
 
+tiledlayout(1,2)
+
+nexttile;
+bar(lambda_values,b_teoricos) 
+title("Blocking Probability (%)")
+xlabel('\lambda (request/hour)')
+
+nexttile;
+bar(lambda_values,o_teoricos)    
+title("Average Server Occupation(mbps)")
+xlabel('\lambda (request/hour)')
+ 
