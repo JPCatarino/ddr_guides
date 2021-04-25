@@ -166,13 +166,23 @@ R = 5000;
 sz = length(lambda_values);
 b_teoricos = zeros(1, sz);
 o_teoricos = zeros(1, sz);
-inverse_mu = 1.438;
+b_mixed = zeros(2, sz);
+o_mixed = zeros(2, sz);
+inverse_mu = 1.4383;
+
+[medias_b, terms_b, medias_o, terms_o] = ...
+    runSimulatorWithLambda(N, lambda_values, C, M ,R, fname);
 
 for z = 1:sz
    ro = lambda_values(z)*inverse_mu;
    
-   b_teoricos(z) = theoricalBlockingProbability(ro, lambda_values(z));
-   o_teoricos(z) = theoricalAverageSystemOccupation(ro, lambda_values(z));
+   b_teoricos(z) = theoricalBlockingProbability(ro, C);
+   o_teoricos(z) = theoricalAverageSystemOccupation(ro, C);
+   
+   b_mixed(1,z) = medias_b(z);
+   b_mixed(2,z) = b_teoricos(z);
+   o_mixed(1,z) = medias_o(z);
+   o_mixed(2,z) = o_teoricos(z);
 end
 
 % Average server occupation
@@ -181,12 +191,14 @@ figure(4);
 tiledlayout(1,2)
 
 nexttile;
-bar(lambda_values,b_teoricos) 
+bar(lambda_values, b_mixed) 
+legend("simulation", "theorical")
 title("Blocking Probability (%)")
 xlabel('\lambda (request/hour)')
 
 nexttile;
-bar(lambda_values,o_teoricos)    
+bar(lambda_values, o_mixed)    
+legend("simulation", "theorical")
 title("Average Server Occupation(mbps)")
 xlabel('\lambda (request/hour)')
  
