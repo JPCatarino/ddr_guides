@@ -54,21 +54,23 @@ disp("Check figure 1.");
 figure(1);
 stem([2,3,4,5], prob_false_positive_n);
 set(gca,'yscal','log');
-title("Probability of False Positives (%)");
+title("Probabilidade de Falsos Positivos (%)");
 xlabel('n');
 ylabel('p(%)');
 xlim([1.5, 5.5]);
+grid on;
 print -depsc alinea5a
 
 disp("Ex5.b.");
 disp("Check figure 2.");
 figure(2);
-stem([2,3,4,5], prob_false_negative_n);
+stem([2,3,4,5], prob_false_negative_n*100);
 set(gca, 'yscal', 'log');
-title("Probability of False Negatives (%)");
+title("Probabilidade de Falsos Negativos (%)");
 xlabel('n');
 ylabel('p(%)');
 xlim([1.5, 5.5]);
+grid on;
 print -depsc alinea5b
 
 
