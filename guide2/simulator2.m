@@ -17,8 +17,8 @@ function [b_hd b_4k] = simulator2(lambda, p, n, S, W, R, fname)
     
     %Events definition:
     ARRIVAL = 0;                %movie request
-    DEPARTURE_HD = zeros(1, n); %termination of a HD movie transmission
-    DEPARTURE_4K = zeros(1, n); %termination of a 4k movie transmission
+    DEPARTURE_HD = 1:n; %termination of a HD movie transmission
+    DEPARTURE_4K = 1:n; %termination of a 4k movie transmission
     %State variables initialization:
     STATE = zeros(1, n);
     STATE_HD = 0;
@@ -34,26 +34,33 @@ function [b_hd b_4k] = simulator2(lambda, p, n, S, W, R, fname)
     
     while REQUESTS_HD+REQUEST_4K < R
         event= EventList(1,1);
-        Previous_Clock= Clock;
         Clock= EventList(1,2);
         EventList(1,:)= [];
         
         if event == ARRIVAL
             EventList= [EventList; ARRIVAL Clock+exprnd(invlambda)];
             NARRIVALS= NARRIVALS+1;
+            least_loaded_c, least_loaded_i = min(STATE);
+
             % Find which request was made
             % Choose the right server according 
             % to the load rules.
             % Se 
             if p <= rand()
-                least_loaded_c, least_loaded_i = min(STATE)
+                REQUESTS_4K = REQUESTS_4K + 1;
                 if S - least_loaded_c >= 25
                     STATE(least_loaded_i) = least_loaded_c + M_4k;
-                    EventList= [EventList; DEPARTURE Clock+invmiu(randi(Nmovies))];
+                    EventList= [EventList; DEPARTURE_4K(least_loaded_i) Clock+invmiu(randi(Nmovies))];
                 else
-                    BLOCKED_4K = BLOCKED_4K + 1:
+                    BLOCKED_4K = BLOCKED_4K + 1;
                 end
             else
+                REQUESTS_HD = REQUESTS_HD + 1;
+                if (S - least_loaded_c >= 5) && (STATE_HD + M_hd <= C - W)
+                    STATE(least_loaded_i) = least_loaded_c + M_hd;
+                    STATE_HD = STATE_HD + M_hd;
+                    EventList= [EventList; DEPARTURE_HD(least_loaded_i) Clock+invmiu(randi(Nmovies))];
+                end
             end  
         else
             STATE= STATE-M;
