@@ -168,21 +168,22 @@ b_teoricos = zeros(1, sz);
 o_teoricos = zeros(1, sz);
 b_mixed = zeros(2, sz);
 o_mixed = zeros(2, sz);
-inverse_mu = 1.4383;
+inverse_mu = 5178;
 
 [medias_b, terms_b, medias_o, terms_o] = ...
     runSimulatorWithLambda(N, lambda_values, C, M ,R, fname);
 
+N_teorico = C/M;
 for z = 1:sz
-   ro = lambda_values(z)*inverse_mu;
+   ro = (lambda_values(z)/3600)*inverse_mu;
    
-   b_teoricos(z) = theoricalBlockingProbability(ro, C);
-   o_teoricos(z) = theoricalAverageSystemOccupation(ro, C);
+   b_teoricos(z) = theoricalBlockingProbability(ro, N_teorico);
+   o_teoricos(z) = theoricalAverageSystemOccupation(ro, N_teorico);
    
    b_mixed(1,z) = medias_b(z);
-   b_mixed(2,z) = b_teoricos(z);
+   b_mixed(2,z) = b_teoricos(z)*100;
    o_mixed(1,z) = medias_o(z);
-   o_mixed(2,z) = o_teoricos(z);
+   o_mixed(2,z) = o_teoricos(z)*M;
 end
 
 % Average server occupation
@@ -192,13 +193,13 @@ tiledlayout(1,2)
 
 nexttile;
 bar(lambda_values, b_mixed) 
-legend("simulation", "theorical")
+legend("simulation", "theorical", "Location" ,"northwest")
 title("Blocking Probability (%)")
 xlabel('\lambda (request/hour)')
 
 nexttile;
 bar(lambda_values, o_mixed)    
-legend("simulation", "theorical")
+legend("simulation", "theorical", "Location", "northwest")
 title("Average Server Occupation(mbps)")
 xlabel('\lambda (request/hour)')
  
