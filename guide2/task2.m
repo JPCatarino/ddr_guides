@@ -36,6 +36,7 @@ bar(lambda_values,medias_b_4k_c1)
 title("Blocking Probability 4K (%)")
 xlabel('\lambda (request/hour)')
 ylim([0 100])
+grid on
 
 hold on
 
@@ -51,6 +52,7 @@ bar(lambda_values,medias_b_hd_c1)
 title("Blocking Probability HD (%)")
 xlabel('\lambda (request/hour)')
 ylim([0 100])
+grid on
 
 hold on
 
@@ -85,6 +87,7 @@ legend("Configuration 1", "Configuration 2", "Configuration 3", "Location" ,"nor
 title("Blocking Probability 4K (%)")
 xlabel('\lambda (request/hour)')
 ylim([0 100])
+grid on
 
 nexttile;
 bar(lambda_values, [medias_b_hd_c1(:) medias_b_hd_c2(:) medias_b_hd_c3(:)]) 
@@ -92,6 +95,7 @@ legend("Configuration 1", "Configuration 2", "Configuration 3", "Location" ,"nor
 title("Blocking Probability HD (%)")
 xlabel('\lambda (request/hour)')
 ylim([0 100])
+grid on
 
 %%
 %2c
@@ -121,6 +125,7 @@ legend("Configuration 1", "Configuration 2", "Configuration 3", "Location" ,"nor
 title("Blocking Probability 4K (%)")
 xlabel('\lambda (request/hour)')
 ylim([0 100])
+grid on
 
 nexttile;
 bar(lambda_values, [medias_b_hd_c1(:) medias_b_hd_c2(:) medias_b_hd_c3(:)]) 
@@ -128,6 +133,7 @@ legend("Configuration 1", "Configuration 2", "Configuration 3", "Location" ,"nor
 title("Blocking Probability HD (%)")
 xlabel('\lambda (request/hour)')
 ylim([0 100])
+grid on
 
 %%
 %2d
@@ -157,6 +163,7 @@ legend("Configuration 1", "Configuration 2", "Configuration 3", "Location" ,"nor
 title("Blocking Probability 4K (%)")
 xlabel('\lambda (request/hour)')
 ylim([0 100])
+grid on
 
 nexttile;
 bar(lambda_values, [medias_b_hd_c1(:) medias_b_hd_c2(:) medias_b_hd_c3(:)]) 
@@ -164,3 +171,4 @@ legend("Configuration 1", "Configuration 2", "Configuration 3", "Location" ,"nor
 title("Blocking Probability HD (%)")
 xlabel('\lambda (request/hour)')
 ylim([0 100])
+grid on
