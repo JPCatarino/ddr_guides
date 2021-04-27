@@ -1,4 +1,4 @@
-function [b_hd b_4k] = simulator2(lambda, p, n, S, W, R, fname)
+function [b_4k b_hd] = simulator2(lambda, p, n, S, W, R, fname)
     % Parameters
     % lambda - movies request rate (req/hour)
     % p - percentage of request for 4k movies (%)
