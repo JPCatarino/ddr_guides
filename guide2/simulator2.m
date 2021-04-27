@@ -45,7 +45,7 @@ function [b_hd b_4k] = simulator2(lambda, p, n, S, W, R, fname)
             % Find which request was made
             % Choose the right server according 
             % to the load rules.
-            if p <= rand()
+            if rand <= p
                 REQUESTS_4K = REQUESTS_4K + 1;
                 if S - least_loaded_c >= 25
                     STATE(least_loaded_i) = least_loaded_c + M_4k;
