@@ -1,5 +1,6 @@
 %Task1
 
+%%
 %1a
 % Adapted from Module 3 Slide 22
 
@@ -28,6 +29,7 @@ term_o = norminv(1-alfa/2)*sqrt(var(results_o)/N);
 fprintf('Blocking probability (%%) = %.2e +- %.2e\n', media_b, term_b);
 fprintf('Average occupation (Mbps) = %.2e +- %.2e\n', media_o, term_o);
 
+%%
 %1b
 lambda_values = [10, 15, 20, 25, 30, 35, 40];
 
@@ -80,6 +82,7 @@ er.LineStyle = 'none';
 
 hold off
 
+%%
 %1c
 R = 5000;
 
@@ -117,6 +120,7 @@ er.LineStyle = 'none';
 
 hold off
 
+%%
 %1d
 lambda_values = [100, 150, 200, 250, 300, 350, 400];
 C = 1000;
@@ -157,6 +161,7 @@ er.LineStyle = 'none';
 
 hold off
 
+%%
 %1e
 lambda_values = [10, 15, 20, 25, 30, 35, 40];
 C = 100;
@@ -203,11 +208,12 @@ legend("simulation", "theorical", "Location", "northwest")
 title("Average Server Occupation(mbps)")
 xlabel('\lambda (request/hour)')
 
+%%
 %1f
 lambda_values = [100, 150, 200, 250, 300, 350, 400];
 C = 1000;
 M = 4;
-R = 5000;
+R = 20000;
 
 sz = length(lambda_values);
 b_teoricos = zeros(1, sz);
