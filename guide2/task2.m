@@ -35,6 +35,7 @@ nexttile;
 bar(lambda_values,medias_b_4k) 
 title("Blocking Probability 4K (%)")
 xlabel('\lambda (request/hour)')
+ylim([0 100])
 
 hold on
 
@@ -49,6 +50,7 @@ nexttile;
 bar(lambda_values,medias_b_hd)    
 title("Blocking Probability HD (%)")
 xlabel('\lambda (request/hour)')
+ylim([0 100])
 
 hold on
 
