@@ -172,3 +172,31 @@ title("Blocking Probability HD (%)")
 xlabel('\lambda (request/hour)')
 ylim([0 100])
 grid on
+
+%%
+%2e
+
+% Configuration E
+e_n = 3;
+e_S = 1000;
+
+N_times = 10;
+alfa = 0.1;
+W = 1000;
+p = 0.24;
+R = 100000;
+
+[medias_b_4k_e, terms_b_4k_e, medias_b_hd_e, terms_b_hd_e] = ...
+    runSimulator2(N_times, alfa, lambda_values, p, e_n, e_S, W, R, fname);
+
+[medias_b_4k_e_fail, terms_b_4k_e_fail, medias_b_hd_e_fail, terms_b_hd_e_fail] = ...
+    runSimulator2(N_times, alfa, lambda_values, p, e_n-1, e_S, W, R, fname);
+
+for i = 1:6
+    fprintf('Blocking probability 4K (%%) = %.2e +- %.2e\n', medias_b_4k_e(i), terms_b_4k_e(i));
+    fprintf('Blocking probability 4K Failed Server (%%) = %.2e +- %.2e\n', medias_b_4k_e_fail(i), terms_b_4k_e_fail(i));
+    fprintf('Blocking probability HD (%%) = %.2e +- %.2e\n', medias_b_hd_e(i), terms_b_hd_e(i));
+    fprintf('Blocking probability HD Failed Server (%%) = %.2e +- %.2e\n', medias_b_hd_e_fail(i), terms_b_hd_e_fail(i));
+end
+
+
