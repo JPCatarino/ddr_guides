@@ -17,8 +17,6 @@ function [b_4k b_hd] = simulator2(lambda, p, n, S, W, R, fname)
     
     %Events definition:
     ARRIVAL = 0;             %movie request
-    DEPARTURE_HD = 1:n;      %termination of a HD movie transmission
-    DEPARTURE_4K = (1:n)+n;      %termination of a 4k movie transmission
     %State variables initialization:
     STATE = zeros(1, n);
     STATE_HD = 0;
@@ -49,7 +47,7 @@ function [b_4k b_hd] = simulator2(lambda, p, n, S, W, R, fname)
                 REQUESTS_4K = REQUESTS_4K + 1;
                 if S - least_loaded_c >= 25
                     STATE(least_loaded_i) = least_loaded_c + M_4k;
-                    EventList= [EventList; DEPARTURE_4K(least_loaded_i) Clock+invmiu(randi(Nmovies))];
+                    EventList= [EventList; least_loaded_i+n Clock+invmiu(randi(Nmovies))];
                 else
                     BLOCKED_4K = BLOCKED_4K + 1;
                 end
@@ -58,7 +56,7 @@ function [b_4k b_hd] = simulator2(lambda, p, n, S, W, R, fname)
                 if (S - least_loaded_c >= 5) && (STATE_HD + M_hd <= C - W)
                     STATE(least_loaded_i) = least_loaded_c + M_hd;
                     STATE_HD = STATE_HD + M_hd;
-                    EventList= [EventList; DEPARTURE_HD(least_loaded_i) Clock+invmiu(randi(Nmovies))];
+                    EventList= [EventList; least_loaded_i Clock+invmiu(randi(Nmovies))];
                 else 
                     BLOCKED_HD = BLOCKED_HD + 1;
                 end
