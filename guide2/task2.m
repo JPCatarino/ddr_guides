@@ -177,7 +177,7 @@ grid on
 %2e
 
 % Configuration E
-e_n = 1;
+e_n = 2;
 e_S = 10000;
 
 N_times = 10;
