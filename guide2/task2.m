@@ -177,34 +177,33 @@ grid on
 %2e
 
 % Configuration E
-e_n = 2;
+e_n = 4;
 e_S = 10000;
 
 N_times = 10;
 alfa = 0.1;
-W = 5000;
+W = 10000;
 p = 0.24;
-R = 100000;
+R = 25000;
+lambda = R/24;
 
 [medias_b_4k_e, terms_b_4k_e, medias_b_hd_e, terms_b_hd_e] = ...
-    runSimulator2(N_times, alfa, lambda_values, p, e_n, e_S, W, R, fname);
+    runSimulator2(N_times, alfa, lambda, p, e_n, e_S, W, R, fname);
 
 [medias_b_4k_e_fail, terms_b_4k_e_fail, medias_b_hd_e_fail, terms_b_hd_e_fail] = ...
-    runSimulator2(N_times, alfa, lambda_values, p, e_n-1, e_S, W, R, fname);
+    runSimulator2(N_times, alfa, lambda, p, e_n-1, e_S, W, R, fname);
 
-for i = 1:6
-    fprintf('Blocking probability 4K (%%) = %.2e +- %.2e\n', medias_b_4k_e(i), terms_b_4k_e(i));
-    fprintf('Blocking probability 4K Failed Server (%%) = %.2e +- %.2e\n', medias_b_4k_e_fail(i), terms_b_4k_e_fail(i));
-    fprintf('Blocking probability HD (%%) = %.2e +- %.2e\n', medias_b_hd_e(i), terms_b_hd_e(i));
-    fprintf('Blocking probability HD Failed Server (%%) = %.2e +- %.2e\n', medias_b_hd_e_fail(i), terms_b_hd_e_fail(i));
-end
+fprintf('Blocking probability 4K (%%) = %.2e +- %.2e\n', medias_b_4k_e, terms_b_4k_e);
+fprintf('Blocking probability 4K Failed Server (%%) = %.2e +- %.2e\n', medias_b_4k_e_fail, terms_b_4k_e_fail);
+fprintf('Blocking probability HD (%%) = %.2e +- %.2e\n', medias_b_hd_e, terms_b_hd_e);
+fprintf('Blocking probability HD Failed Server (%%) = %.2e +- %.2e\n', medias_b_hd_e_fail, terms_b_hd_e_fail);
 
 figure(5);
 
 tiledlayout(1,2)
 
 nexttile;
-bar(lambda_values, [medias_b_4k_e(:) medias_b_4k_e_fail(:)]) 
+bar(lambda, [medias_b_4k_e(:) medias_b_4k_e_fail(:)]) 
 legend("Working", "Failed Server", "Location" ,"northwest")
 title("Blocking Probability 4K (%)")
 xlabel('\lambda (request/hour)')
@@ -212,7 +211,7 @@ ylim([0 100])
 grid on
 
 nexttile;
-bar(lambda_values, [medias_b_hd_e(:) medias_b_hd_e_fail(:)]) 
+bar(lambda, [medias_b_hd_e(:) medias_b_hd_e_fail(:)]) 
 legend("Working", "Failed Server", "Location" ,"northwest")
 title("Blocking Probability HD (%)")
 xlabel('\lambda (request/hour)')
