@@ -62,6 +62,9 @@ er.LineStyle = 'none';
 
 hold off
 
+print -depsc alinea2a
+
+
 %%
 %2b
 
@@ -96,6 +99,9 @@ title("Blocking Probability HD (%) - W = 0")
 xlabel('\lambda (request/hour)')
 ylim([0 100])
 grid on
+
+print -depsc alinea2b
+
 
 %%
 %2c
@@ -135,6 +141,8 @@ xlabel('\lambda (request/hour)')
 ylim([0 100])
 grid on
 
+print -depsc alinea2c
+
 %%
 %2d
 
@@ -173,18 +181,20 @@ xlabel('\lambda (request/hour)')
 ylim([0 100])
 grid on
 
+print -depsc alinea2d
+
 %%
 %2e
 
 % Configuration E
-e_n = 4;
+e_n = 7;
 e_S = 10000;
 
 N_times = 10;
 alfa = 0.1;
-W = 10000;
+W = 36950;
 p = 0.24;
-R = 25000;
+R = 100000;
 lambda = R/24;
 
 [medias_b_4k_e, terms_b_4k_e, medias_b_hd_e, terms_b_hd_e] = ...
@@ -207,7 +217,6 @@ bar(lambda, [medias_b_4k_e(:) medias_b_4k_e_fail(:)])
 legend("Working", "Failed Server", "Location" ,"northwest")
 title("Blocking Probability 4K (%)")
 xlabel('\lambda (request/hour)')
-ylim([0 100])
 grid on
 
 nexttile;
@@ -215,7 +224,6 @@ bar(lambda, [medias_b_hd_e(:) medias_b_hd_e_fail(:)])
 legend("Working", "Failed Server", "Location" ,"northwest")
 title("Blocking Probability HD (%)")
 xlabel('\lambda (request/hour)')
-ylim([0 100])
 grid on
 
 
