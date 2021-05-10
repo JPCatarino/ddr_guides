@@ -66,23 +66,44 @@ G_graph = graph(G(:, 1), G(:,2));
 
 plot(G_graph);
 
-%%
-%3a
-I = [];
+%% 
+% 3a
+
+c = [12, 8];
 n_nodes = numnodes(G_graph);
-for i = 6:n_nodes
+fid= fopen('res3a.lp','wt');
+
+% Minimize (1)
+fprintf(fid, 'Minimize\n');
+for i=6:n_nodes
+    c_aux = c(1);
+    if i >= 16
+        c_aux = c(2);
+    end
+    fprintf(fid, ' + %f x%d', c_aux, i);
+end
+fprintf(fid, '\nSubject To \n');
+% Constraint 1 (2)
+for j=6:n_nodes
     I_j_aux = [];
-    for j = 6:n_nodes
-        sp_aux = shortestpath(G_graph, i, j);
+    for i=6:n_nodes
+        sp_aux = shortestpath(G_graph, j, i);
         sp_aux = sp_aux(2:end-1);
         if length(sp_aux) <= 1
-            I_j_aux = [I_j_aux; j];
+            I_j_aux = [I_j_aux; i];
         end
     end
-    disp(i);
-    disp(I_j_aux);
-    %I = [I I_j_aux];
+    for z=1:length(I_j_aux)
+        fprintf(fid, ' + x%d', I_j_aux(z));
+    end
+    fprintf(fid, ' >= 1\n');
 end
-
+% Binary (3)
+fprintf(fid, 'Binary\n');
+for i=6:n_nodes
+    fprintf(fid, ' x%d\n', i);
+end
+fprintf(fid, 'End\n');
+fclose(fid);
 %%
 sp_aux = shortestpath(G_graph, 1, 1);
