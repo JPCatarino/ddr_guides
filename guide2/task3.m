@@ -71,13 +71,18 @@ plot(G_graph);
 I = [];
 n_nodes = numnodes(G_graph);
 for i = 6:n_nodes
+    I_j_aux = [];
     for j = 6:n_nodes
-        if i ~= j
-            sp_aux = shortestpath(G_graph, i, j);
-            sp_aux = sp_aux(2:end-1);
-            if length(sp_aux) <= 1 && ~ismember(i, I)
-                I = [I; i];
-            end
+        sp_aux = shortestpath(G_graph, i, j);
+        sp_aux = sp_aux(2:end-1);
+        if length(sp_aux) <= 1
+            I_j_aux = [I_j_aux; j];
         end
     end
+    disp(i);
+    disp(I_j_aux);
+    %I = [I I_j_aux];
 end
+
+%%
+sp_aux = shortestpath(G_graph, 1, 1);
