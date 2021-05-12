@@ -106,4 +106,40 @@ end
 fprintf(fid, 'End\n');
 fclose(fid);
 %%
-sp_aux = shortestpath(G_graph, 1, 1);
+%3b
+
+% Configuration B
+b_n = 13;
+b_S = 1000;
+
+N_times = 10;
+alfa = 0.1;
+W = 8750;
+p = 0.30;
+R = 17500;
+lambda = R/24;
+fname = "movies.txt";
+
+[medias_b_4k_b, terms_b_4k_b, medias_b_hd_b, terms_b_hd_b] = ...
+    runSimulator2(N_times, alfa, lambda, p, b_n, b_S, W, R, fname);
+
+fprintf('Blocking probability 4K (%%) = %.2e +- %.2e\n', medias_b_4k_b, terms_b_4k_b);
+fprintf('Blocking probability HD (%%) = %.2e +- %.2e\n', medias_b_hd_b, terms_b_hd_b);
+
+figure(1);
+tiledlayout(1,2)
+
+nexttile;
+bar(lambda, medias_b_4k_b(:)) 
+legend("Working", "Location" ,"northwest")
+title("Blocking Probability 4K (%)")
+xlabel('\lambda (request/hour)')
+grid on
+
+nexttile;
+bar(lambda, medias_b_hd_b(:)) 
+legend("Working", "Location" ,"northwest")
+title("Blocking Probability HD (%)")
+xlabel('\lambda (request/hour)')
+grid on
+
