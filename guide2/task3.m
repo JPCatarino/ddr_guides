@@ -113,10 +113,10 @@ b_n = 13;
 b_S = 1000;
 
 N_times = 10;
-alfa = 0.1;
+alfa = 0.tt1;
 W = 8750;
 p = 0.30;
-R = 17500;
+R = 30000;
 lambda = R/24;
 fname = "movies.txt";
 
@@ -136,10 +136,26 @@ title("Blocking Probability 4K (%)")
 xlabel('\lambda (request/hour)')
 grid on
 
+hold on
+
+er = errorbar(lambda, medias_b_4k_b, terms_b_4k_b);    
+er.Color = [0 0 0];                            
+er.LineStyle = 'none';  
+
+hold off
+
 nexttile;
 bar(lambda, medias_b_hd_b(:)) 
 legend("Working", "Location" ,"northwest")
 title("Blocking Probability HD (%)")
 xlabel('\lambda (request/hour)')
 grid on
+
+hold on
+
+er = errorbar(lambda, medias_b_hd_b, terms_b_hd_b);    
+er.Color = [0 0 0];                            
+er.LineStyle = 'none';  
+
+hold off
 
