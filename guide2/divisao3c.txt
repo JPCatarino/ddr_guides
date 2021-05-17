@@ -1,0 +1,20 @@
+# Objective value = 48
+
+// Areas Default
+x9  :  11 as - 4 t2 * 7 t3 = 37500 subs 
+x13 :  11 as - 5 t2 * 6 t3 = 40000 subs 
+x16 :  9 as - 3 t2 * 6 t3 = 30000 subs 
+x21 :  6 as - 3 t2 * 3 t3 = 22500 subs 
+x30 :  9 as - 3 t2 * 6 t3 = 30000 subs 
+
+// Areas 'Otimizadas'
+x9  :  7 as - 2 t2 * 5 t3 = 22500 subs - 15
+x13 :  8 as - 2 t2 * 6 t3 = 25000 subs - 17
+x16 :  8 as - 2 t2 * 6 t3 = 25000 subs - 17
+x21 :  5 as - 2 t2 * 3 t3 = 17500 subs - 12
+x30 :  7 as - 2 t2 * 5 t3 = 22500 subs - 15
+
+
+R = 112500
+R_4k = 33750
+

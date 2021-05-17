@@ -109,22 +109,22 @@ fclose(fid);
 %3b
 
 % Configuration B
-b_n = 13;
+b_n = 76;
 b_S = 1000;
 
 N_times = 10;
 alfa = 0.1;
-W = 8750;
+W = 52000;
 p = 0.30;
-R = 30000;
+R = 112500;
 lambda = R/24;
 fname = "movies.txt";
 
 [medias_b_4k_b, terms_b_4k_b, medias_b_hd_b, terms_b_hd_b] = ...
     runSimulator2(N_times, alfa, lambda, p, b_n, b_S, W, R, fname);
 
-fprintf('Blocking probability 4K (%%) = %.2e +- %.2e\n', medias_b_4k_b, terms_b_4k_b);
-fprintf('Blocking probability HD (%%) = %.2e +- %.2e\n', medias_b_hd_b, terms_b_hd_b);
+fprintf('Blocking probability 4K (%%) - (n = %d, W = %d) = %.2e +- %.2e\n', b_n, W, medias_b_4k_b, terms_b_4k_b);
+fprintf('Blocking probability HD (%%) - (n = %d, W = %d) = %.2e +- %.2e\n', b_n, W, medias_b_hd_b, terms_b_hd_b);
 
 figure(1);
 tiledlayout(1,2)
