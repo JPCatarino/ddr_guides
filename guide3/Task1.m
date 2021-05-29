@@ -37,31 +37,30 @@ fprintf('Throughput (Mbps) = %.2e +- %.2e\n', medias_TT, temp_TT);
 %% 1c)
 
 % Parameters
-n_runs = 10;
-P = 10000; %stoping criterion
-alpha = 0.10; %confidence intervals
 lambda = 1800; %packet rate
 C = 10; %conection capacity
 f = 1000000; %queue size
 
-lambda2 = lambda ; 
-u = (C * 1000 / f); 
-
 % 16% for 64 bytes, 25% for 110 bytes, 20% for 1518 bytes,
 % 39& for the rest
 
-AveragePacketSize = (0.16 * 1 + 0.25 * 2 + 0.2 * 3 + 0.39 * 4) / 5 ;
-% packet delay
-PacketDelay = 1 / (u - lambda2);
-Sum = 0;
+aux= [65:109 111:1517];
 
-for i = 1:(P-1)
-   Sum = Sum + (lambda2 / u) ^ i; 
-end
+% B = sum(prob * S)
+AveragePacketSize = ((0.16 * 64) + (0.25 * 110) + (0.2 * 1518) + ...
+    ((sum(aux)*0.39)/length(aux)))*8;
 
-PacketLoss = ((lambda2/u)^(P-1)) / Sum;
+% mu = C / B
+u = (C*f)/AveragePacketSize ;   % Mbps
 
+% packet delay = 1/mu - lambda
+PacketDelay = 1 / (u - lambda) * 1000;
+
+%Throughput = 10-6 * TRANSMITTEDBYTES * 8
+Throughput = 1e-6 * (lambda*AveragePacketSize);
+
+% Packet Loss is 0 since queue is basically infinite
 fprintf('\n1c\n');
-fprintf('PacketLoss (%%) = %.5 \n', PacketLoss);
-fprintf('Av. Packet Delay (ms) = %.5 \n', PacketDelay);
-
+fprintf('PacketLoss (%%) = %.5f \n', 0);
+fprintf('Av. Packet Delay (ms) = %.5f \n', PacketDelay);
+fprintf('Throughput (Mbps): %.5f \n', Throughput);
