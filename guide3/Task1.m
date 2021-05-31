@@ -51,7 +51,7 @@ AveragePacketSize = ((0.16 * 64) + (0.25 * 110) + (0.2 * 1518) + ...
     ((sum(aux)*0.39)/length(aux)))*8;
 
 % mu = C / B
-u = (C*f)/AveragePacketSize ;   % Mbps
+u = (C * 1000000)/AveragePacketSize ;   % Mbps
 
 % packet delay = 1/mu - lambda
 PacketDelay = 1 / (u - lambda) * 1000;
@@ -77,7 +77,7 @@ f = 1000000; %queue size
 
 aux= [65:109 111:1517];
 
-S = C*f;
+S = C * 1000000;
 
 ES = ((0.16 * 64) + (0.25 * 110) + (0.2 * 1518) + ... 
     (0.39/length(aux)) *sum(aux)) * 8 / S;
@@ -100,8 +100,8 @@ fprintf('Throughput (Mbps): %.5f \n', Throughput);
 
 % Parameters
 lambda = 1800; %packet rate
-C = 10; %conection capacity
-f = 1000000; %queue size
+C = 10 * 1000000; %conection capacity
+f = 10000*8; %queue size
 
 % 16% for 64 bytes, 25% for 110 bytes, 20% for 1518 bytes,
 % 39& for the rest
@@ -112,11 +112,34 @@ aux= [65:109 111:1517];
 AveragePacketSize = ((0.16 * 64) + (0.25 * 110) + (0.2 * 1518) + ...
     ((sum(aux)*0.39)/length(aux)))*8;
 
+m = round((f/AveragePacketSize))+1;
+
 % mu = C / B
-u = (C*f)/AveragePacketSize;   % Mbps
+u = C/AveragePacketSize;   % Mbps
+% (lamda/mu)^m/sum((lamda/mu)^j)
 den = 0;
-for j = 0:C
+for j = 0:m
     den = den + (lambda/u)^j;
 end
-PacketLoss = ((lambda/u)^C)/den; 
+PacketLoss = (((lambda/u)^(m))/den)*100;
+
+num_aux = 0;
+
+for i = 0:m
+    num_aux = num_aux + (i * ((lambda/u)^i));
+end
+
+L = num_aux/den;
+
+PacketDelay = L/(lambda*(1 - (PacketLoss/100)))*1000;
+
+%Throughput = 10-6 * TRANSMITTEDBYTES * 8
+Throughput = (1e-6 * ((lambda*AveragePacketSize)-(lambda*AveragePacketSize*(PacketLoss/100))));
+
+fprintf('\n1e\n');
+fprintf('PacketLoss (%%) = %.5f \n', PacketLoss);
+fprintf('Av. Packet Delay (ms) = %.5f \n', PacketDelay);
+fprintf('Throughput (Mbps): %.5f \n', Throughput);
+
+
 
