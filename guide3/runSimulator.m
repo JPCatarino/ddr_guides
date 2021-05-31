@@ -14,9 +14,9 @@ medias_APD = mean(results_APD);
 medias_MDP = mean(results_MDP);
 medias_TT = mean(results_TT);
 
-temp_PL = norminv(1-alfa/2)*sqrt(var(medias_PL)/n_times);
-temp_APD = norminv(1-alfa/2)*sqrt(var(medias_APD)/n_times);
-temp_MDP = norminv(1-alfa/2)*sqrt(var(medias_MDP)/n_times);
-temp_TT = norminv(1-alfa/2)*sqrt(var(medias_TT)/n_times);
+temp_PL = norminv(1-alfa/2)*sqrt(var(results_PL)/n_times);
+temp_APD = norminv(1-alfa/2)*sqrt(var(results_APD)/n_times);
+temp_MDP = norminv(1-alfa/2)*sqrt(var(results_MDP)/n_times);
+temp_TT = norminv(1-alfa/2)*sqrt(var(results_TT)/n_times);
 
 
