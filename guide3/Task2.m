@@ -66,9 +66,4 @@ PacketLoss = PacketLoss + PacketLoss_aux;
 fprintf('\n2c\n');
 fprintf('PacketLoss (%%) = %.5f \n', PacketLoss*100);
 
-
-
-
-
-
 %% 2d)
