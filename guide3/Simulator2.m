@@ -104,7 +104,5 @@ end
 
 function result= CalculateProbabilityOfBER(packetSize, ber)
     n = packetSize * 8;
-    p = ber;
-    i = 0;
-    result = (nchoosek(n,i) * p^i * (1-p)^(n-i));
+    result = (1-ber)^n;
 end
