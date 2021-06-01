@@ -108,7 +108,7 @@ for i=1:length(aux)
         ((0.39/length(aux)) * Pi_aux * lambda * (8 * aux(i)));
 end
 
-%Throughput = Throughput + Throughput_aux;
+Throughput = (Throughput + Throughput_aux) * 1e-6;
 
 fprintf('\n2c\n');
 fprintf('PacketLoss (%%) = %.5f \n', PacketLoss*100);
