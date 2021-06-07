@@ -72,11 +72,11 @@ ES2 = ((0.16 * (64*8/S)^2) + (0.25 * (110*8/S)^2) + (0.2 * (1518*8/S)^2) ...
     + (0.39/length(aux))*(sum((aux*8/S).^2)));
 
 % WQ = lambda*E[S^2]/2(1-lambdaE[s]) + E[s]
-WQ = ((lambda * ES2)/(2 * (1 - (lambda * ES)))+ES)*1000;
+WQ = ((lambda * ES2)/(2 * (1 - (lambda * ES))))*1000;
 
-Wi_64 = WQ + ((8*64)/S);
-Wi_110 = WQ + ((8*110)/S);
-Wi_1518 = WQ + ((8*1518)/S);
+Wi_64 = WQ + ((8*64)/S)*1000;
+Wi_110 = WQ + ((8*110)/S)*1000;
+Wi_1518 = WQ + ((8*1518)/S)*1000;
 
 APD_num = (0.16 * Pi_64 * Wi_64) + (0.25 * Pi_110 * Wi_110) ...
     + (0.2 * Pi_1518 * Wi_1518);
@@ -87,7 +87,7 @@ APD_num_aux = 0;
 APD_den_aux = 0;
 for i=1:length(aux)
     Pi_aux = (1 - b)^(8*aux(i));
-    Wi_aux = WQ + ((8*aux(i))/S);
+    Wi_aux = WQ + ((8*aux(i))/S)*1000;
     APD_num_aux = APD_num_aux + ((0.39/length(aux)) * Pi_aux * Wi_aux);
     APD_den_aux = APD_den_aux + ((0.39/length(aux)) * Pi_aux);
 end
@@ -150,11 +150,11 @@ ES2 = ((0.16 * (64*8/S)^2) + (0.25 * (110*8/S)^2) + (0.2 * (1518*8/S)^2) ...
     + (0.39/length(aux))*(sum((aux*8/S).^2)));
 
 % WQ = lambda*E[S^2]/2(1-lambdaE[s]) + E[s]
-WQ = ((lambda * ES2)/(2 * (1 - (lambda * ES)))+ES)*1000;
+WQ = ((lambda * ES2)/(2 * (1 - (lambda * ES))))*1000;
 
-Wi_64 = WQ + ((8*64)/S);
-Wi_110 = WQ + ((8*110)/S);
-Wi_1518 = WQ + ((8*1518)/S);
+Wi_64 = WQ + ((8*64)/S)*1000;
+Wi_110 = WQ + ((8*110)/S)*1000;
+Wi_1518 = WQ + ((8*1518)/S)*1000;
 
 APD_num = (0.16 * Pi_64 * Wi_64) + (0.25 * Pi_110 * Wi_110) ...
     + (0.2 * Pi_1518 * Wi_1518);
@@ -165,7 +165,7 @@ APD_num_aux = 0;
 APD_den_aux = 0;
 for i=1:length(aux)
     Pi_aux = (1 - b)^(8*aux(i));
-    Wi_aux = WQ + ((8*aux(i))/S);
+    Wi_aux = WQ + ((8*aux(i))/S)*1000;
     APD_num_aux = APD_num_aux + ((0.39/length(aux)) * Pi_aux * Wi_aux);
     APD_den_aux = APD_den_aux + ((0.39/length(aux)) * Pi_aux);
 end
