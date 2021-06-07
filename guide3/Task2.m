@@ -111,9 +111,9 @@ end
 Throughput = (Throughput + Throughput_aux) * 1e-6;
 
 fprintf('\n2c\n');
-fprintf('PacketLoss (%%) = %.5f \n', PacketLoss*100);
-fprintf('Av. Packet Delay (ms) = %.5f \n', PacketDelay);
-fprintf('Throughput (Mbps): %.5f \n', Throughput);
+fprintf('PacketLoss (%%) = %.4f \n', PacketLoss*100);
+fprintf('Av. Packet Delay (ms) = %.4f \n', PacketDelay);
+fprintf('Throughput (Mbps): %.4f \n', Throughput);
 
 %% 2d)
 
@@ -189,6 +189,6 @@ end
 Throughput = (Throughput + Throughput_aux) * 1e-6;
 
 fprintf('\n2d\n');
-fprintf('PacketLoss (%%) = %.5f \n', PacketLoss*100);
-fprintf('Av. Packet Delay (ms) = %.5f \n', PacketDelay);
-fprintf('Throughput (Mbps): %.5f \n', Throughput);
+fprintf('PacketLoss (%%) = %.4f \n', PacketLoss*100);
+fprintf('Av. Packet Delay (ms) = %.4f \n', PacketDelay);
+fprintf('Throughput (Mbps): %.4f \n', Throughput);
