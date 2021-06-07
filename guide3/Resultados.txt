@@ -1,0 +1,7 @@
+3b)
+
+Alteração significativas são diminuição do tamanho das barras de erro
+
+3c) 
+Valores negativos são justificados pelo facto de o packet rate ser maior que a taxa de receção dos servidores
+Os modelos n são validos (pq o lambda é superior ao mu)
