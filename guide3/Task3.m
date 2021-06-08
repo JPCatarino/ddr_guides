@@ -248,3 +248,97 @@ legend("Simulation", "M/M/1", "M/G/1", "Location" ,"northwest")
 title("Throughput (Mbps)")
 xlabel('\lambda (packets/seconds)')
 grid on
+
+%% 3d)
+
+% Parameters
+n_runs = 40;
+P = 10000; %stoping criterion
+alpha = 0.10; %confidence intervals
+lambda = 1800; %packet rate
+C = 10; %conection capacity
+f_values = [2500, 5000, 7500, 10000, 12500, 15000, 17500, 20000]; %queue size
+b = 0; %bit error rate
+
+% Results arrays
+sz = length(f_values);
+medias_PL = zeros(1, sz);
+temp_PL = zeros(1, sz);
+medias_APD = zeros(1, sz);
+temp_APD = zeros(1, sz);
+medias_MDP = zeros(1, sz);
+temp_MDP = zeros(1, sz);
+medias_TT = zeros(1, sz);
+temp_TT = zeros(1, sz);
+
+% Run simulator n times for each value of lambda
+for i = 1:sz
+    [medias_PL(i), temp_PL(i) , medias_APD(i), temp_APD(i), ...
+     medias_MDP(i), temp_MDP(i) , medias_TT(i), temp_TT(i)] = ...
+    runSimulator2(n_runs, alpha, lambda, C, f_values(i), P,b);
+end
+
+figure(4)
+tiledlayout(2,2)
+% Packet Loss
+nexttile;
+bar(f_values,medias_PL) 
+title("Packet Loss (%)")
+xlabel('queue size (Bytes)')
+ylim([0 100])
+grid on
+
+hold on
+
+er = errorbar(f_values, medias_PL, temp_PL);    
+er.Color = [0 0 0];                            
+er.LineStyle = 'none';  
+
+hold off
+
+% Average Packet Delay
+nexttile;
+bar(f_values,medias_APD)    
+title("Average Packet Delay (ms)")
+xlabel('queue size (Bytes)')
+grid on
+
+hold on
+
+er = errorbar(f_values, medias_APD, temp_APD);    
+er.Color = [0 0 0];                            
+er.LineStyle = 'none';  
+
+hold off
+
+% Max Packet Delay
+nexttile;
+bar(f_values,medias_MDP)    
+title("Max Packet Delay (ms)")
+xlabel('queue size (Bytes)')
+grid on
+
+hold on
+
+er = errorbar(f_values, medias_MDP, temp_MDP);    
+er.Color = [0 0 0];                            
+er.LineStyle = 'none';  
+
+hold off
+
+% Throughput
+nexttile;
+bar(f_values,medias_TT)    
+title("Throughput (Mbps)")
+xlabel('queue size (Bytes)')
+grid on
+
+hold on
+
+er = errorbar(f_values, medias_TT, temp_TT);    
+er.Color = [0 0 0];                            
+er.LineStyle = 'none';  
+
+hold off
+
+%% 3e)
