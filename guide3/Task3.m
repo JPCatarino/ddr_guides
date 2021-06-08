@@ -342,3 +342,73 @@ er.LineStyle = 'none';
 hold off
 
 %% 3e)
+
+% Parameters
+lambda = 1800; %packet rate
+C = 10 * 1000000; %conection capacity
+f_values = [2500, 5000, 7500, 10000, 12500, 15000, 17500, 20000]; %queue size
+
+% Calculate Theorical Values for M/M/1/m
+% 16% for 64 bytes, 25% for 110 bytes, 20% for 1518 bytes,
+% 39& for the rest
+
+aux= [65:109 111:1517];
+
+% B = sum(prob * S)
+AveragePacketSize = ((0.16 * 64) + (0.25 * 110) + (0.2 * 1518) + ...
+    ((sum(aux)*0.39)/length(aux)))*8;
+
+PacketLoss_MM1m = zeros(1, length(f_values));
+PacketDelay_MM1m = zeros(1, length(f_values));
+Throughput_MM1m = zeros(1, length(f_values));
+
+for z=1:length(f_values)
+    m = round((f_values(z)/AveragePacketSize))+1;
+
+    % mu = C / B
+    u = C/AveragePacketSize;   % Mbps
+    % (lamda/mu)^m/sum((lamda/mu)^j)
+    den = 0;
+    for j = 0:m
+        den = den + (lambda/u)^j;
+    end
+    PacketLoss_MM1m(z) = (((lambda/u)^(m))/den)*100;
+
+    num_aux = 0;
+
+    for i = 0:m
+        num_aux = num_aux + (i * ((lambda/u)^i));
+    end
+
+    L = num_aux/den;
+
+    PacketDelay_MM1m(z) = L/(lambda*(1 - (PacketLoss_MM1m(z)/100)))*1000;
+
+    %Throughput = 10-6 * TRANSMITTEDBYTES * 8
+    Throughput_MM1m(z) = (1e-6 * ((lambda*AveragePacketSize)-(lambda*AveragePacketSize*(PacketLoss_MM1m(z)/100))));
+end
+
+figure(5);
+
+tiledlayout(1,3)
+
+nexttile;
+bar(f_values, [medias_APD(:) PacketDelay_MM1m(:)]) 
+legend("Simulation", "M/M/1/m", "Location" ,"northwest")
+title("Average Packet Delay (ms)")
+xlabel('Queue Size (Bytes)')
+grid on
+
+nexttile;
+bar(f_values, [medias_TT(:) Throughput_MM1m(:)]) 
+legend("Simulation", "M/M/1/m", "Location" ,"northwest")
+title("Throughput (Mbps)")
+xlabel('Queue Size (Bytes)')
+grid on
+
+nexttile;
+bar(f_values, [medias_PL(:) PacketLoss_MM1m(:)]) 
+legend("Simulation", "M/M/1/m", "Location" ,"northeast")
+title("Packet Loss (%%)")
+xlabel('Queue Size (Bytes)')
+grid on
