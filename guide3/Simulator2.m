@@ -60,16 +60,19 @@ while TRANSMITTEDPACKETS<P               % Stopping criterium
                 end
             end
         case DEPARTURE                     % If first event is a DEPARTURE
-            TRANSMITTEDBYTES= TRANSMITTEDBYTES + PacketSize;
-            DELAYS= DELAYS + (Clock - ArrivalInstant);
             % Verify if has erros; LOSTPACKETS= LOSTPACKETS + 1;
             if rand() > ProbWithoutErros
                 LOSTPACKETS= LOSTPACKETS + 1;
+            else
+                TRANSMITTEDBYTES= TRANSMITTEDBYTES + PacketSize;
+                DELAYS= DELAYS + (Clock - ArrivalInstant);
+
+                if Clock - ArrivalInstant > MAXDELAY
+                    MAXDELAY= Clock - ArrivalInstant;
+                end
+                TRANSMITTEDPACKETS= TRANSMITTEDPACKETS + 1; 
             end
-            if Clock - ArrivalInstant > MAXDELAY
-                MAXDELAY= Clock - ArrivalInstant;
-            end
-            TRANSMITTEDPACKETS= TRANSMITTEDPACKETS + 1;
+                
             if QUEUEOCCUPATION > 0
                 EventList = [EventList; DEPARTURE, Clock + 8*QUEUE(1,1)/(C*10^6), QUEUE(1,1), QUEUE(1,2)];
                 QUEUEOCCUPATION= QUEUEOCCUPATION - QUEUE(1,1);
