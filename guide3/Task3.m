@@ -363,7 +363,7 @@ PacketDelay_MM1m = zeros(1, length(f_values));
 Throughput_MM1m = zeros(1, length(f_values));
 
 for z=1:length(f_values)
-    m = round((f_values(z)/AveragePacketSize))+1;
+    m = round(((f_values(z)*8)/AveragePacketSize))+1;
 
     % mu = C / B
     u = C/AveragePacketSize;   % Mbps
@@ -596,3 +596,87 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';  
 
 hold off
+
+%% 3h)
+
+% Calculating M/G/1 theoretical values with b
+% Parameters
+lambda_values = [1500, 1600, 1700, 1800, 1900, 2000]; %packet rate
+C = 10; %conection capacity
+b = 10^-5; %bit error rate
+
+% sum(pi * (1 - Pi))
+Pi_64 = (1 - b)^(8*64);
+Pi_110 = (1 - b)^(8*110);
+Pi_1518 = (1 - b)^(8*1518);
+
+% Delay
+S = C * 1000000;
+
+ES = ((0.16 * 64) + (0.25 * 110) + (0.2 * 1518) + ... 
+    (0.39/length(aux)) *sum(aux)) * 8 / S;
+ES2 = ((0.16 * (64*8/S)^2) + (0.25 * (110*8/S)^2) + (0.2 * (1518*8/S)^2) ...
+    + (0.39/length(aux))*(sum((aux*8/S).^2)));
+
+PacketDelay_MG1 = zeros(1, length(lambda_values));
+Throughput_MG1 = zeros(1, length(lambda_values));
+
+for z=1:length(lambda_values)
+    % WQ = lambda*E[S^2]/2(1-lambdaE[s]) + E[s]
+    WQ = ((lambda_values(z) * ES2)/(2 * (1 - (lambda_values(z) * ES))))*1000;
+
+    Wi_64 = WQ + ((8*64)/S)*1000;
+    Wi_110 = WQ + ((8*110)/S)*1000;
+    Wi_1518 = WQ + ((8*1518)/S)*1000;
+
+    APD_num = (0.16 * Pi_64 * Wi_64) + (0.25 * Pi_110 * Wi_110) ...
+        + (0.2 * Pi_1518 * Wi_1518);
+
+    APD_den = (0.16 * Pi_64) + (0.25 * Pi_110) + (0.2 * Pi_1518);
+
+    APD_num_aux = 0;
+    APD_den_aux = 0;
+    for i=1:length(aux)
+        Pi_aux = (1 - b)^(8*aux(i));
+        Wi_aux = WQ + ((8*aux(i))/S)*1000;
+        APD_num_aux = APD_num_aux + ((0.39/length(aux)) * Pi_aux * Wi_aux);
+        APD_den_aux = APD_den_aux + ((0.39/length(aux)) * Pi_aux);
+    end
+
+    PacketDelay_MG1(z) = (APD_num + APD_num_aux)/(APD_den + APD_den_aux);
+
+    % Throughput
+
+    Throughput = (0.16 * Pi_64 * lambda_values(z) * (8 * 64)) ...
+        + (0.25 * Pi_110 * lambda_values(z) * (8 * 110)) ...
+        + (0.2 * Pi_1518 * lambda_values(z) * (8 * 1518));
+
+    Throughput_aux = 0;
+
+    for i=1:length(aux)
+        Pi_aux = (1 - b)^(8*aux(i));
+        Throughput_aux = Throughput_aux + ...
+            ((0.39/length(aux)) * Pi_aux * lambda_values(z) * (8 * aux(i)));
+    end
+
+    Throughput_MG1(z) = (Throughput + Throughput_aux) * 1e-6;
+
+end
+
+figure(8);
+
+tiledlayout(1,2)
+
+nexttile;
+bar(lambda_values, [medias_APD(:) PacketDelay_MG1(:)]) 
+legend("Simulation", "M/G/1", "Location" ,"northwest")
+title("Average Packet Delay (ms)")
+xlabel('\lambda (packets/second)')
+grid on
+
+nexttile;
+bar(lambda_values, [medias_TT(:) Throughput_MG1(:)]) 
+legend("Simulation", "M/G/1", "Location" ,"northwest")
+title("Throughput (Mbps)")
+xlabel('\lambda (packets/second)')
+grid on
