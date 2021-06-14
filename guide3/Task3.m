@@ -33,7 +33,6 @@ nexttile;
 bar(lambda_values,medias_PL) 
 title("Packet Loss (%)")
 xlabel('\lambda (packets/second)')
-ylim([0 100])
 grid on
 
 hold on
@@ -124,7 +123,6 @@ nexttile;
 bar(lambda_values,medias_PL) 
 title("Packet Loss (%)")
 xlabel('\lambda (packets/second)')
-ylim([0 100])
 grid on
 
 hold on
@@ -285,7 +283,6 @@ nexttile;
 bar(f_values,medias_PL) 
 title("Packet Loss (%)")
 xlabel('queue size (Bytes)')
-ylim([0 100])
 grid on
 
 hold on
@@ -449,7 +446,6 @@ nexttile;
 bar(f_values,medias_PL) 
 title("Packet Loss (%)")
 xlabel('queue size (Bytes)')
-ylim([0 100])
 grid on
 
 hold on
@@ -541,7 +537,6 @@ nexttile;
 bar(lambda_values,medias_PL) 
 title("Packet Loss (%)")
 xlabel('\lambda (packets/second)')
-ylim([0 100])
 grid on
 
 hold on
@@ -669,14 +664,14 @@ tiledlayout(1,2)
 
 nexttile;
 bar(lambda_values, [medias_APD(:) PacketDelay_MG1(:)]) 
-legend("Simulation", "M/G/1", "Location" ,"northwest")
+legend("Simulation", "M/G/1 w/ ber", "Location" ,"northwest")
 title("Average Packet Delay (ms)")
 xlabel('\lambda (packets/second)')
 grid on
 
 nexttile;
 bar(lambda_values, [medias_TT(:) Throughput_MG1(:)]) 
-legend("Simulation", "M/G/1", "Location" ,"northwest")
+legend("Simulation", "M/G/1 w/ ber", "Location" ,"northwest")
 title("Throughput (Mbps)")
 xlabel('\lambda (packets/second)')
 grid on
