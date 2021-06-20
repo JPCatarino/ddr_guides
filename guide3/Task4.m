@@ -116,3 +116,79 @@ title("Throughput (Mbps)")
 xlabel('\lambda (packets/second)')
 grid on
 
+%% 4d)
+% Parameters
+n_runs = 10;
+P = 100000; %stoping criterion
+alpha = 0.10; %confidence intervals
+lambda = 1800; %packet rate
+C = 10; %conection capacity
+f_values = [2500, 5000, 7500, 10000, 12500, 15000, 17500, 20000]; %queue size
+b = 0; %bit error rate
+
+sz = length(f_values);
+
+% Results arrays Sim2
+medias_PL_S2 = zeros(1, sz);
+temp_PL_S2 = zeros(1, sz);
+medias_APD_S2 = zeros(1, sz);
+temp_APD_S2 = zeros(1, sz);
+medias_MDP_S2 = zeros(1, sz);
+temp_MDP_S2 = zeros(1, sz);
+medias_TT_S2 = zeros(1, sz);
+temp_TT_S2 = zeros(1, sz);
+
+% Results arrays Sim3
+medias_PL_S3 = zeros(1, sz);
+temp_PL_S3 = zeros(1, sz);
+medias_APD_S3 = zeros(1, sz);
+temp_APD_S3 = zeros(1, sz);
+medias_MDP_S3 = zeros(1, sz);
+temp_MDP_S3 = zeros(1, sz);
+medias_TT_S3 = zeros(1, sz);
+temp_TT_S3 = zeros(1, sz);
+
+% Run simulator n times for each value of lambda
+for i = 1:sz
+    [medias_PL_S2(i), temp_PL_S2(i) , medias_APD_S2(i), temp_APD_S2(i), ...
+     medias_MDP_S2(i), temp_MDP_S2(i) , medias_TT_S2(i), temp_TT_S2(i)] = ...
+    runSimulator2(n_runs, alpha, lambda, C, f_values(i), P,b);
+    
+    [medias_PL_S3(i), temp_PL_S3(i) , medias_APD_S3(i), temp_APD_S3(i), ...
+     medias_MDP_S3(i), temp_MDP_S3(i) , medias_TT_S3(i), temp_TT_S3(i)] = ...
+    runSimulator3(n_runs, alpha, lambda, C, f_values(i), P,b);
+end
+
+figure(2);
+
+tiledlayout(2,2)
+
+% Packet Loss
+nexttile;
+bar(f_values, [medias_PL_S2(:) medias_PL_S3(:)]) 
+legend("Simulation 2", "Simulation 3", "Location" ,"northwest")
+title("Packet Loss (%)")
+xlabel('queue size (Bytes)')
+grid on
+
+nexttile;
+bar(f_values, [medias_APD_S2(:) medias_APD_S3(:)]) 
+legend("Simulation 2", "Simulation 3", "Location" ,"northwest")
+title("Average Packet Delay (ms)")
+xlabel('\lambda (packets/second)')
+grid on
+
+% Max Packet Delay
+nexttile;
+bar(f_values, [medias_MDP_S2(:) medias_MDP_S3(:)]) 
+legend("Simulation 2", "Simulation 3", "Location" ,"northwest")   
+title("Max Packet Delay (ms)")
+xlabel('queue size (Bytes)')
+grid on
+
+nexttile;
+bar(f_values, [medias_TT_S2(:) medias_TT_S3(:)]) 
+legend("Simulation 2", "Simulation 3", "Location" ,"northwest")
+title("Throughput (Mbps)")
+xlabel('\lambda (packets/second)')
+grid on
