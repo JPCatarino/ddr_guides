@@ -20,7 +20,7 @@ TRANSITION = 2;   % the transition of a state in the packet
 STATE = 0;          % 0 - connection free; 1 - connection bysy
 QUEUEOCCUPATION= 0; % Occupation of the queue (in Bytes)
 QUEUE= [];          % Size and arriving time instant of each packet in the queue
-FLOWSTATE = 2;      % Current chain state
+FLOWSTATE = 0;      % Current chain state
 
 %Statistical Counters:
 TOTALPACKETS= 0;       % No. of packets arrived to the system
@@ -48,9 +48,9 @@ probs = [prob_1 prob_2 prob_3];
 
 % Calculo do tempo de permanência
 
-time_1 = (1 / 10) * 60;
-time_2 = (1 / (5 + 5)) * 60;
-time_3 = (1 / 10) * 60;
+time_1 = (1 / 10);
+time_2 = (1 / (5 + 5));
+time_3 = (1 / 10);
 times = [time_1 time_2 time_3];
 
 % Calculos dos valores de lambda por estado
@@ -58,7 +58,7 @@ times = [time_1 time_2 time_3];
 lambda_values = [0.5*lambda lambda 1.5*lambda];
 
 % Initialize first Transition
-FLOWSTATE = CalculateNextState(FLOWSTATE, probs);
+FLOWSTATE = CalculateFirstState(probs);
 EventList = [TRANSITION, Clock + exprnd(times(FLOWSTATE)), 0, 0];
 
 % Initializing the List of Events with the first ARRIVAL:
@@ -110,7 +110,7 @@ while TRANSMITTEDPACKETS<P               % Stopping criterium
                 STATE= 0;
             end
         case TRANSITION
-            FLOWSTATE = CalculateNextState(FLOWSTATE, probs);
+            FLOWSTATE = CalculateNextState(FLOWSTATE);
             EventList = [EventList; TRANSITION, Clock + exprnd(times(FLOWSTATE)), 0, 0];
     end
 end
@@ -142,22 +142,27 @@ function result= CalculateProbabilityOfBER(packetSize, ber)
     result = (1-ber)^n;
 end
 
-function newState= CalculateNextState(currState, probs)
+function newState= CalculateNextState(currState)
     next_state_prob = rand();
-    newState = currState;
-    if currState == 1 
-        if next_state_prob > probs(2)
-            newState = 2;
-        end
+    
+    if currState == 1 || currState == 3
+        newState = 2;
     elseif currState == 2
-        if next_state_prob <= probs(1)
+        if next_state_prob < 0.5
             newState = 1;
-        elseif next_state_prob >= probs(2) + probs(3)
+        else
             newState = 3;
         end
-    else 
-        if next_state_prob > probs(2)
-            newState = 2;
-        end    
     end    
+end
+
+function newState= CalculateFirstState(probs)
+    next_state_prob = rand();
+    if next_state_prob <= probs(1)
+        newState = 1;
+    elseif next_state_prob >= 1 - probs(3)
+        newState = 3;
+    else 
+        newState = 2;
+    end       
 end
