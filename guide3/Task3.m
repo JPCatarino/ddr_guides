@@ -1,4 +1,4 @@
-%% 3a)
+%% 3a) e 3b)
 % Parameters
 n_runs = 10;
 P = 10000; %stoping criterion
@@ -10,85 +10,22 @@ b = 0; %bit error rate
 
 % Results arrays
 sz = length(lambda_values);
-medias_PL = zeros(1, sz);
-temp_PL = zeros(1, sz);
-medias_APD = zeros(1, sz);
-temp_APD = zeros(1, sz);
-medias_MDP = zeros(1, sz);
-temp_MDP = zeros(1, sz);
-medias_TT = zeros(1, sz);
-temp_TT = zeros(1, sz);
+medias_PL_a = zeros(1, sz);
+temp_PL_a = zeros(1, sz);
+medias_APD_a = zeros(1, sz);
+temp_APD_a = zeros(1, sz);
+medias_MDP_a = zeros(1, sz);
+temp_MDP_a = zeros(1, sz);
+medias_TT_a = zeros(1, sz);
+temp_TT_a = zeros(1, sz);
 
 % Run simulator n times for each value of lambda
 for i = 1:sz
-    [medias_PL(i), temp_PL(i) , medias_APD(i), temp_APD(i), ...
-     medias_MDP(i), temp_MDP(i) , medias_TT(i), temp_TT(i)] = ...
+    [medias_PL_a(i), temp_PL_a(i) , medias_APD_a(i), temp_APD_a(i), ...
+     medias_MDP_a(i), temp_MDP_a(i) , medias_TT_a(i), temp_TT_a(i)] = ...
     runSimulator2(n_runs, alpha, lambda_values(i), C, f, P,b);
 end
 
-figure(1)
-tiledlayout(2,2)
-% Packet Loss
-nexttile;
-bar(lambda_values,medias_PL) 
-title("Packet Loss (%)")
-xlabel('\lambda (packets/second)')
-grid on
-
-hold on
-
-er = errorbar(lambda_values, medias_PL, temp_PL);    
-er.Color = [0 0 0];                            
-er.LineStyle = 'none';  
-
-hold off
-
-% Average Packet Delay
-nexttile;
-bar(lambda_values,medias_APD)    
-title("Average Packet Delay (ms)")
-xlabel('\lambda (packets/second)')
-grid on
-
-hold on
-
-er = errorbar(lambda_values, medias_APD, temp_APD);    
-er.Color = [0 0 0];                            
-er.LineStyle = 'none';  
-
-hold off
-
-% Max Packet Delay
-nexttile;
-bar(lambda_values,medias_MDP)    
-title("Max Packet Delay (ms)")
-xlabel('\lambda (packets/second)')
-grid on
-
-hold on
-
-er = errorbar(lambda_values, medias_MDP, temp_MDP);    
-er.Color = [0 0 0];                            
-er.LineStyle = 'none';  
-
-hold off
-
-% Throughput
-nexttile;
-bar(lambda_values,medias_TT)    
-title("Throughput (Mbps)")
-xlabel('\lambda (packets/second)')
-grid on
-
-hold on
-
-er = errorbar(lambda_values, medias_TT, temp_TT);    
-er.Color = [0 0 0];                            
-er.LineStyle = 'none';  
-
-hold off
-
-%% 3b)
 % Parameters
 n_runs = 40;
 P = 10000; %stoping criterion
@@ -100,79 +37,110 @@ b = 0; %bit error rate
 
 % Results arrays
 sz = length(lambda_values);
-medias_PL = zeros(1, sz);
-temp_PL = zeros(1, sz);
-medias_APD = zeros(1, sz);
-temp_APD = zeros(1, sz);
-medias_MDP = zeros(1, sz);
-temp_MDP = zeros(1, sz);
-medias_TT = zeros(1, sz);
-temp_TT = zeros(1, sz);
+medias_PL_b = zeros(1, sz);
+temp_PL_b = zeros(1, sz);
+medias_APD_b = zeros(1, sz);
+temp_APD_b = zeros(1, sz);
+medias_MDP_b = zeros(1, sz);
+temp_MDP_b = zeros(1, sz);
+medias_TT_b = zeros(1, sz);
+temp_TT_b = zeros(1, sz);
 
 % Run simulator n times for each value of lambda
 for i = 1:sz
-    [medias_PL(i), temp_PL(i) , medias_APD(i), temp_APD(i), ...
-     medias_MDP(i), temp_MDP(i) , medias_TT(i), temp_TT(i)] = ...
+    [medias_PL_b(i), temp_PL_b(i) , medias_APD_b(i), temp_APD_b(i), ...
+     medias_MDP_b(i), temp_MDP_b(i) , medias_TT_b(i), temp_TT_b(i)] = ...
     runSimulator2(n_runs, alpha, lambda_values(i), C, f, P,b);
 end
 
-figure(2)
-tiledlayout(2,2)
-% Packet Loss
+figure(1)
+tiledlayout(2,3)
+% Average Packet Delay A
 nexttile;
-bar(lambda_values,medias_PL) 
-title("Packet Loss (%)")
+bar(lambda_values,medias_APD_a) 
+title("Average Packet Delay - A (ms)")
 xlabel('\lambda (packets/second)')
 grid on
 
 hold on
 
-er = errorbar(lambda_values, medias_PL, temp_PL);    
+er = errorbar(lambda_values, medias_APD_a, temp_APD_a);    
 er.Color = [0 0 0];                            
 er.LineStyle = 'none';  
 
 hold off
 
-% Average Packet Delay
+% Max Packet Delay - A
 nexttile;
-bar(lambda_values,medias_APD)    
-title("Average Packet Delay (ms)")
+bar(lambda_values,medias_MDP_a)    
+title("Max Packet Delay - A (ms)")
 xlabel('\lambda (packets/second)')
 grid on
 
 hold on
 
-er = errorbar(lambda_values, medias_APD, temp_APD);    
+er = errorbar(lambda_values, medias_MDP_a, temp_MDP_a);    
 er.Color = [0 0 0];                            
 er.LineStyle = 'none';  
 
 hold off
 
-% Max Packet Delay
+% Throughput - A
 nexttile;
-bar(lambda_values,medias_MDP)    
-title("Max Packet Delay (ms)")
+bar(lambda_values,medias_TT_a)    
+title("Throughput - A (Mbps)")
 xlabel('\lambda (packets/second)')
 grid on
 
 hold on
 
-er = errorbar(lambda_values, medias_MDP, temp_MDP);    
+er = errorbar(lambda_values, medias_TT_a, temp_TT_a);    
 er.Color = [0 0 0];                            
 er.LineStyle = 'none';  
 
 hold off
 
-% Throughput
+
+% Average Packet Delay B
 nexttile;
-bar(lambda_values,medias_TT)    
-title("Throughput (Mbps)")
+bar(lambda_values,medias_APD_b)    
+title("Average Packet Delay - B (ms)")
 xlabel('\lambda (packets/second)')
 grid on
 
 hold on
 
-er = errorbar(lambda_values, medias_TT, temp_TT);    
+er = errorbar(lambda_values, medias_APD_b, temp_APD_b);    
+er.Color = [0 0 0];                            
+er.LineStyle = 'none';  
+
+hold off
+
+% Max Packet Delay - B
+nexttile;
+bar(lambda_values,medias_MDP_b)    
+title("Max Packet Delay - B (ms)")
+xlabel('\lambda (packets/second)')
+grid on
+
+hold on
+
+er = errorbar(lambda_values, medias_MDP_b, temp_MDP_b);    
+er.Color = [0 0 0];                            
+er.LineStyle = 'none';  
+
+hold off
+
+% Throughput - B
+nexttile;
+bar(lambda_values,medias_TT_b)    
+title("Throughput - B (Mbps)")
+xlabel('\lambda (packets/second)')
+grid on
+
+hold on
+
+er = errorbar(lambda_values, medias_TT_b, temp_TT_b);    
 er.Color = [0 0 0];                            
 er.LineStyle = 'none';  
 
@@ -234,14 +202,14 @@ figure(3);
 tiledlayout(1,2)
 
 nexttile;
-bar(lambda_values, [medias_APD(:) PacketDelay_MM1(:) PacketDelay_MG1(:)]) 
+bar(lambda_values, [medias_APD_b(:) PacketDelay_MM1(:) PacketDelay_MG1(:)]) 
 legend("Simulation", "M/M/1", "M/G/1", "Location" ,"northwest")
 title("Average Packet Delay (ms)")
 xlabel('\lambda (packets/second)')
 grid on
 
 nexttile;
-bar(lambda_values, [medias_TT(:) Throughput_MM1(:) Throughput_MG1(:)]) 
+bar(lambda_values, [medias_TT_b(:) Throughput_MM1(:) Throughput_MG1(:)]) 
 legend("Simulation", "M/M/1", "M/G/1", "Location" ,"northwest")
 title("Throughput (Mbps)")
 xlabel('\lambda (packets/seconds)')
